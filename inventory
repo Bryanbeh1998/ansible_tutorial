@@ -1,1 +1,11 @@
-10.10.10.206
+[web_servers]
+bryanbeh@10.10.10.206
+bbwj@10.10.10.208 #ubuntu
+
+[db_servers]
+bbwj@10.10.10.208
+bbwj@10.10.10.207
+
+[file_servers] 
+bryanbeh@10.10.10.206
+bbwj@10.10.10.208 #ubuntu
