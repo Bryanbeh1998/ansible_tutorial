@@ -36,8 +36,6 @@
       owner: root
       group: root
 
-
-
 - hosts: web_servers
   become: true
   tasks:
@@ -51,13 +49,29 @@
       state: latest
     when: ansible_distribution == "CentOS"
   
-  - name : start httpd (CentOS)
+  - name: start httpd (CentOS)
     tags: apache,centos,httpd
     service: 
       name: httpd
       state: started
       enabled: yes
     when: ansible_distribution == "CentOS"
+
+  - name: change e-mail address for admin
+    tags: apache,centos,httpd
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'                          #finds line that starts with ServerAdmin
+      line: ServerAdmin somebody@somewhere.net
+    when: ansible_distribution == "CentOS"
+    register: httpd
+
+  - name: restart http (CentOS)
+    tags: apache,centos,httpd
+    service: 
+      name: httpd
+      state: restarted
+    when: httpd.changed                                 #carry out only if httpd is changed 
 
 
 
@@ -69,6 +83,7 @@
         - libapache2-mod-php
       state: latest
     when: ansible_distribution == "Ubuntu"
+
 
   - name: copy default html file for site
     tags: apache,apache2,httpd
