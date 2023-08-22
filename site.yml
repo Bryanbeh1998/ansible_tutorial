@@ -50,7 +50,17 @@
         - php
       state: latest
     when: ansible_distribution == "CentOS"
- 
+  
+  - name : start httpd (CentOS)
+    tags: apache,centos,httpd
+    service: 
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
+
+
+
   - name: install apache2 and php packages for Ubuntu
     tags: apache,apache2,ubuntu
     apt:
